@@ -1,9 +1,12 @@
-import ReactHashtag from "@mdnm/react-hashtag";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import dotenv from "dotenv";
 import styled from "styled-components";
 
 import Hashtags from "../Components/hashtags";
+import axios from "axios";
+
+dotenv.config();
 
 function Main() {
   const hashtags = [
@@ -28,6 +31,19 @@ function Main() {
       nome: "#teste5",
     },
   ];
+
+  useEffect(() => {
+    const fetchData = async() => {
+      try {
+        const { data } = await axios.get(`${process.env.BACKEND_URL}/hashtag`);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <>
       <Container>
