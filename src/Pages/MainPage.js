@@ -9,34 +9,12 @@ import axios from "axios";
 dotenv.config();
 
 function Main() {
-  const hashtags = [
-    {
-      id: 1,
-      nome: "#teste1",
-    },
-    {
-      id: 2,
-      nome: "#aaaaaaaaaaaaaaaaaaaa",
-    },
-    {
-      id: 3,
-      nome: "#teste3",
-    },
-    {
-      id: 4,
-      nome: "#teste4",
-    },
-    {
-      id: 5,
-      nome: "#teste5",
-    },
-  ];
-
+  const [hashtags, setHashtags] = useState([])
   useEffect(() => {
     const fetchData = async() => {
       try {
-        const { data } = await axios.get(`${process.env.BACKEND_URL}/hashtag`);
-        console.log(data);
+        const { data } = await axios.get(`${process.env.REACT_APP_BACK_URL}/hashtag`);
+        setHashtags(data)
       } catch (error) {
         console.log(error);
       }
@@ -51,7 +29,7 @@ function Main() {
         <Line></Line>
         <HashtagContainer>
             {hashtags.map((hashtag) => (
-              <Hashtags key={hashtag.id} id={hashtag.id} name={hashtag.nome}  />
+              <Hashtags key={hashtag.id} id={hashtag.id} name={hashtag.name}  />
             ))}
         </HashtagContainer>
       </Container>
