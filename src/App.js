@@ -1,10 +1,11 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import UserProfile from "./Pages/UserProfile";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<></>} />
+        <Route path="/user/:id" element={<UserProfile />} />
       </Routes>
     </BrowserRouter>
   );
