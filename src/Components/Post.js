@@ -4,18 +4,18 @@ import styled from "styled-components";
 export default function Post() {
   return (
     <Container>
-      <div class="left-container">
-        <div class="user-img-container"></div>
+      <div className="left-container">
+        <div className="user-img-container"></div>
         <img src="https://www.americanaircraftsales.com/wp-content/uploads/2016/09/no-profile-img.jpg" alt="" />
       </div>
-      <div class="right-container">
+      <div className="right-container">
         <Link to={`/user/1`}>
           <h1>Juvenal Juvêncio</h1>
         </Link>
         <div>
           <span>Muito maneiro esse tutorial de Material UI com React, deem uma olhada!</span>
-          <span class="hashtag"> #react</span>
-          <span class="hashtag"> #material</span>
+          <span className="hashtag"> #react</span>
+          <span className="hashtag"> #material</span>
         </div>
         <LinkPreview
           img="https://user-images.githubusercontent.com/15041151/93779921-e249b380-fbfd-11ea-9db5-ce1c174473cb.png"
@@ -79,12 +79,12 @@ const Container = styled.div`
 const LinkPreview = ({ img, title, description, url }) => {
   return (
     <LinkPreviewContainer>
-      <div class="information-contianer">
+      <div className="information-contianer">
         <h1>{title}</h1>
         <p>{description}</p>
         <span>{url}</span>
       </div>
-      <div class="img-container">
+      <div className="img-container">
         <img src={img} alt="url-img" />
       </div>
     </LinkPreviewContainer>
