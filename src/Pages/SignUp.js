@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Body} from "../Assets/Styles/Body";
 import {Container} from "../Assets/Styles/Container";
 import {Section} from "../Assets/Styles/Section.js";
@@ -16,50 +16,56 @@ const SignUp = (props) => {
     const [pictureUrl, setPictureUrl] = useState("");
     const [password, setPassword] = useState("");
     const [disable, setDisable] = useState(false);
+    
 
+
+   
     const changeDisableState = () => {
-        
-       return  setDisable(!disable);
+        setDisable(!disable);
       };
     
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        setDisable(!disable);
     
-        axios.post("http://localhost:4000/sign-up", {
+   async function handleSubmit(e) {
+        e.preventDefault();
+       
+
+     await axios.post("http://localhost:4000/sign-up", {
             username: username,
             email: email,
             pictureUrl: pictureUrl,
             password: password,
             confirmPassword:password,
         }).then(function (response) {
+           alert(response.data);
             props.login(email);
             props.password(password);
             navigate("/");
-        }).catch(function (response) {
-            const data=response.response.data;
-            if(data.length !== undefined){
-                let mensagem="";
+        }).catch(function (error) {
+            
+            const {data}=error.response;
+
+            if(data.length > 0){
+                let mesage="";
                 for(let i=0;i<data.length;i++){
-                    mensagem += data[i]+"\n";
-                    if(mensagem.indexOf("email")!==-1)setEmail("");
-                    if(mensagem.indexOf("username")!== -1 ) setUserName("");
-                    if(mensagem.indexOf("pictureUrl")!== -1 ) setPictureUrl("");
-                    if(mensagem.indexOf("password")!== -1 ) setPassword("");
+                    mesage += data[i]+"\n";
+                    if(mesage.indexOf("email")!==-1)setEmail("");
+                    if(mesage.indexOf("username")!== -1 ) setUserName("");
+                    if(mesage.indexOf("pictureUrl")!== -1 ) setPictureUrl("");
+                    if(mesage.indexOf("password")!== -1 ) setPassword("");
 
                    
                 }
-                alert(mensagem);
+                alert(mesage);
             }else{
-                alert(response.response.data.msg);
+                alert(data.msg);
                 setEmail("");
-            };
-
-            setDisable(!disable);
-               
+            };     
+            setDisable(false);
         });
+        changeDisableState();
     }
+    
+    
 
     return (<Body>
         <Section>
@@ -69,7 +75,9 @@ const SignUp = (props) => {
             </span>
         </Section>
         <Container>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={
+                handleSubmit
+            }>
                 <Input type="email" placeholder="Email"
                     value={email}
                     onChange={
@@ -94,15 +102,10 @@ const SignUp = (props) => {
                     }
                     />
                 
-                <Button type="submit" value="Submit">
-                    <div onClick={changeDisableState}>
-                     <p>    
+                <Button type="submit" value="Submit"  >
                         Sign Up
-                    </p> 
-                    </div>
                 </Button>
-    
-                
+
                 <StyledLink to="/">Switch back to Log In</StyledLink>
             </form>
         </Container>

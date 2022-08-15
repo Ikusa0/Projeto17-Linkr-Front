@@ -17,6 +17,8 @@ const SignIn = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {setDados} = useContext(UserContext);
+    const [disable, setDisable] = useState(false);
+
 
     useEffect(() => {
         if (props.login.length > 0) {
@@ -25,34 +27,28 @@ const SignIn = (props) => {
         }
     }, [props]);
 
-    function handleSubmit(e) {
+  function handleSubmit(e) {
         e.preventDefault();
-        console.log("email", email);
-        console.log("password", password);
-
-        axios.post("http://localhost:4000/sign-in", {
-            email: email,
-            password: password
+        setDisable(true);
+    axios.post("http://localhost:4000/sign-in", {
+            email,
+            password,
 
         }).then(function (response) {
+            console.log(response);
             localStorage.setItem('token', response.data.token);
             setDados(response.data);
-            console.log(response.data);
-            if (response.data.membership === null) {
-                navigate("/subscriptions");
-            } else {
-                navigate("/home");
-            }
-
-
+            navigate("/timeline");
+             
         }).catch(function (error) {
-            alert("Email ou password invalido. Tente novamente!");
-            setPassword("");
+            console.error("Incorrect username or password.Try again.");
             setEmail("");
-            console.log(error);
+            setPassword("");
         });
+        
+        
     }
-
+    
     return (<Body>
         <Section>
             <Logo/>
@@ -71,9 +67,10 @@ const SignIn = (props) => {
                     onChange={
                         (e) => setPassword(e.target.value)
                     }/>
-                <Button type="submit" value="Submit">
+                <Button type="submit" value="Submit" disabled={disable}>
                     Log In
                 </Button>
+                
                 <StyledLink to="/sign-up">
                 First time? Create an account!</StyledLink>
             </form>

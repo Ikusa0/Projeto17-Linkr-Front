@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React, { useState } from "react";
 import GlobalCss from "./Assets/Styles/GlobalCss";
 
-// import Main from "./Pages/MainPage";
+import Main from "./Pages/MainPage.js";
 // import hashtagPage from "./Pages/hashtagPage";
 // import Header from './Layouts/Header'
 // import Posts from "./Pages/PostsPage";
@@ -32,9 +32,9 @@ export default function App() {
           }
         />
         <Route path="/" element={<SignIn login={login} password={password} />} />
+        <Route path="/home" element={<Main />} />
         {/*
         <Route path="/post" element={<Posts />} />
-        <Route path="/home" element={<Main />} />
         <Route path="/hashtag/:hashtag" element={<hashtagPage />} />
          */}
       </Routes>
